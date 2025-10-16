@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
-
+import json
 today = date.today()
 load_dotenv()
 APCA_API_KEY_ID = os.getenv('APCA_API_KEY_ID')
@@ -27,7 +27,7 @@ for i in tradeable:
         end=datetime(yesterday.year, yesterday.month, today.day)
     )
     bars = client.get_stock_bars(request_params)
-    data = str(bars[str(i)])
+    data = json.load(bars[str(i)])
     closePrice = data.partition('close')
     openPrice = data.partition('open')
     closePrice = str(closePrice)
