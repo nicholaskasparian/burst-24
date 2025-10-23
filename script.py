@@ -8,11 +8,15 @@ from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
+import random
 load_dotenv()
 APCA_API_KEY_ID = os.getenv('APCA_API_KEY_ID')
 APCA_API_SECRET_KEY = os.getenv('APCA_API_SECRET_KEY')
 count = 0
 amtTotal = 0
+riskTolerance = random.randint(1500, 5000)
+print(f"Risk tolerance: {riskTolerance}.")
+time.sleep(3)
 
 trading_client = TradingClient(APCA_API_KEY_ID, APCA_API_SECRET_KEY, paper=True)
 trading_client.close_all_positions(cancel_orders=True)
@@ -64,16 +68,16 @@ for i in tradeable:
         open = latestBar.open
         percentageChange = (close / open - 1) * 100
         if percentageChange > 0:
-            buy(i, abs(percentageChange * 500), "bull")
-            print(f"BUY {i} for USD${round(percentageChange * 500,2)}")
+            buy(i, abs(percentageChange * riskTolerance), "bull")
+            print(f"BUY {i} for USD${round(percentageChange * riskTolerance,2)}")
         elif percentageChange < 0:
-            qtyTemp = int(abs(percentageChange * 500) / close) + 1
+            qtyTemp = int(abs(percentageChange * riskTolerance) / close) + 1
             buy(i, qtyTemp, "bear")
             print(f"SELL {i} for USD${qtyTemp * close }.")
         else:
             print("No trade was executed for " + str(i) + ".")
         count += 1
-        amtTotal += round(percentageChange * 500, 2)
+        amtTotal += round(percentageChange * riskTolerance, 2)
     except Exception:
         print(f"Error with {i}, continuing.")
         continue
