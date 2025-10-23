@@ -15,7 +15,6 @@ APCA_API_SECRET_KEY = os.getenv('APCA_API_SECRET_KEY')
 count = 0
 amtTotal = 0
 riskTolerance = random.randint(1500, 3000)
-riskTolerance = 3000
 print(f"Risk tolerance: {riskTolerance}.")
 time.sleep(3)
 
