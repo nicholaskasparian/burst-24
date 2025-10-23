@@ -63,15 +63,15 @@ for i in tradeable:
         open = latestBar.open
         percentageChange = abs((close / open - 1) * 100)
         if percentageChange > 0:
-            buy(i, percentageChange * 25, "bull")
-            print(f"BUY {i} for USD${percentageChange * 25}")
+            buy(i, percentageChange * 500, "bull")
+            print(f"BUY {i} for USD${round(percentageChange * 500,2)}")
         elif percentageChange < 0:
-            buy(i, percentageChange * 25, "bear")
-            print(f"SELL {i} for USD${percentageChange * 25}")
+            buy(i, percentageChange * 500, "bear")
+            print(f"SELL {i} for USD${round(percentageChange * 500,2)}")
         else:
             print("No trade was executed for " + str(i) + ".")
         count += 1
-        amtTotal += percentageChange * 25
+        amtTotal += round(percentageChange * 500, 2)
     except Exception:
         print(f"Error with {i}, continuing.")
         continue
