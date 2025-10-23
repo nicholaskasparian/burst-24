@@ -52,11 +52,6 @@ APCA_API_KEY_ID=your_api_key_id_here
 APCA_API_SECRET_KEY=your_api_secret_key_here
 ```
 
-3. (Optional) Adjust the risk tolerance in `script.py`:
-```python
-riskTolerance = 3000  # Adjust this value based on your risk appetite
-```
-
 ## Usage
 
 Run the trading bot:
@@ -94,7 +89,7 @@ The bot will:
 ### Example
 
 If a stock moves up 2.5% with a risk tolerance of $3000:
-- Buy order amount = 2.5% × $3000 = $75
+- Buy order amount = 3.5 × $3000 = $10500
 
 If a stock moves down 1.8% with a risk tolerance of $3000 and current price of $100:
 - Sell quantity = (1.8% × $3000) / $100 = 0.54 shares (rounded to integer)
