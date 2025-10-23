@@ -15,6 +15,7 @@ count = 0
 amtTotal = 0
 
 trading_client = TradingClient(APCA_API_KEY_ID, APCA_API_SECRET_KEY, paper=True)
+trading_client.close_all_positions(cancel_orders=True)
 
 def buy(symbol, amt, side):
     if side == "bull":
@@ -27,20 +28,20 @@ def buy(symbol, amt, side):
         market_order = trading_client.submit_order(
             order_data=market_order_data
         )
-    else:
+    elif side == "bear":
         market_order_data = MarketOrderRequest(
             symbol=str(symbol),
-            notional=round(float(amt),2),
+            qty=amt,
             side=OrderSide.SELL,
             time_in_force=TimeInForce.DAY
         )
+
         market_order = trading_client.submit_order(
             order_data=market_order_data
         )
 
 
 today = date.today()
-
 
 client = StockHistoricalDataClient(APCA_API_KEY_ID, APCA_API_SECRET_KEY)
 
@@ -66,8 +67,9 @@ for i in tradeable:
             buy(i, abs(percentageChange * 500), "bull")
             print(f"BUY {i} for USD${round(percentageChange * 500,2)}")
         elif percentageChange < 0:
-            buy(i, abs(percentageChange * 500), "bear")
-            print(f"SELL {i} for USD${round(percentageChange * 500,2)}")
+            qtyTemp = int(abs(percentageChange * 500) / close) + 1
+            buy(i, qtyTemp, "bear")
+            print(f"SELL {i} for USD${qtyTemp * close }.")
         else:
             print("No trade was executed for " + str(i) + ".")
         count += 1
