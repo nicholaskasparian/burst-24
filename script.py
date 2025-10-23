@@ -14,7 +14,8 @@ APCA_API_KEY_ID = os.getenv('APCA_API_KEY_ID')
 APCA_API_SECRET_KEY = os.getenv('APCA_API_SECRET_KEY')
 count = 0
 amtTotal = 0
-riskTolerance = random.randint(1500, 5000)
+riskTolerance = random.randint(1500, 3000)
+riskTolerance = 3000
 print(f"Risk tolerance: {riskTolerance}.")
 time.sleep(3)
 
@@ -70,14 +71,15 @@ for i in tradeable:
         if percentageChange > 0:
             buy(i, abs(percentageChange * riskTolerance), "bull")
             print(f"BUY {i} for USD${round(percentageChange * riskTolerance,2)}")
+            amtTotal += round(percentageChange * riskTolerance, 2)
         elif percentageChange < 0:
-            qtyTemp = int(abs(percentageChange * riskTolerance) / close) + 1
+            qtyTemp = int(abs(percentageChange * riskTolerance) / close)
             buy(i, qtyTemp, "bear")
-            print(f"SELL {i} for USD${qtyTemp * close }.")
+            print(f"SELL {i} for USD${(qtyTemp)* close }.")
+            amtTotal += (qtyTemp) * close
         else:
             print("No trade was executed for " + str(i) + ".")
         count += 1
-        amtTotal += round(percentageChange * riskTolerance, 2)
     except Exception:
         print(f"Error with {i}, continuing.")
         continue
