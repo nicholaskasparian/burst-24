@@ -75,4 +75,4 @@ for i in tradeable:
     except Exception:
         print(f"Error with {i}, continuing.")
         continue
-print(f"Total {count} trades executed for a total cost of USD${round(amtTotal},2).")
+print(f"Total {count} trades executed for a total cost of USD${round(amtTotal,2)}.")
